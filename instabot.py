@@ -1,4 +1,5 @@
 import requests
+import urllib
 app_access_token = '1552927974.120ce8d.08ca68409d6745a7867e181ceea6bb00'
 base = 'https://api.instagram.com/v1/'
 
@@ -57,8 +58,10 @@ def get_own_post():
   own_media = requests.get(request_url).json()
   if own_media['meta']['code'] == 200:
     if len(own_media['data']):
-        print own_media['data'][0]['id']
-        return own_media['data'][0]['id']
+        image_name = own_media['data'][0]['id'] + '.jpeg'
+        image_url = own_media['data'][0]['images']['standard_resolution']['url']
+        urllib.urlretrieve(image_url, image_name)
+        print 'Your image has been downloaded!'
     else:
         print 'Post does not exist!'
   else:
@@ -75,7 +78,10 @@ def get_user_post(insta_username):
     user_media = requests.get(request_url).json()
     if user_media['meta']['code'] == 200:
         if len(user_media['data']):
-            return user_media['data'][0]['id']
+            image_name = user_media['data'][0]['id'] + '.jpeg'
+            image_url = user_media['data'][0]['images']['standard_resolution']['url']
+            urllib.urlretrieve(image_url, image_name)
+            print 'Your image has been downloaded!'
         else:
             print "There is no recent post!"
     else:
