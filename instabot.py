@@ -87,3 +87,15 @@ def get_user_post(insta_username):
     else:
         print "Status code other than 200 received!"
     return None
+
+def get_own_likes():
+    request_url = (base + 'users/self/media/liked?access_token=%s') % (app_access_token)
+    print 'GET request url : %s' % (request_url)
+    own_media = requests.get(request_url).json()
+    if own_media['meta']['code'] == 200:
+        if len(own_media['data']):
+            print 'id'+own_media['data'][0]['user']['id']
+            print 'id ' + own_media['data'][1]['images']['thumbnail']['url']
+
+get_own_likes()
+
