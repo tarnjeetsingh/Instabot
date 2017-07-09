@@ -33,7 +33,7 @@ def get_user_id(insta_username):
       print 'Status code other than 200 received!'
       exit()
 
-def get_user_info():
+def get_user_info(insta_username):
     user_id = get_user_id(insta_username)
     if user_id == None:
         print 'User does not exist!'
@@ -94,8 +94,24 @@ def get_own_likes():
     own_media = requests.get(request_url).json()
     if own_media['meta']['code'] == 200:
         if len(own_media['data']):
-            print 'id'+own_media['data'][0]['user']['id']
+            print 'id '+own_media['data'][0]['user']['id']
             print 'id ' + own_media['data'][1]['images']['thumbnail']['url']
+            image_name = own_media['data'][0]['id'] + '.jpeg'
+            image_url = own_media['data'][0]['images']['standard_resolution']['url']
+            urllib.urlretrieve(image_url, image_name)
+            print 'Your image has been downloaded!'
 
-get_own_likes()
+
+def get_post_id(insta_username):
+    user_id = get_user_id(insta_username)
+    request_url = (base + 'users/%s/media/recent/?access_token=%s') % (user_id, app_access_token)
+    print request_url
+    media = requests.get(request_url).json()
+    if media['meta']['code'] == 200:
+        if len(media['data']):
+            print 'id '+media['data'][0]['id']
+    else:
+        print'Status code other than 200 received'
+
+ #def like_a_post(insta_username):
 
