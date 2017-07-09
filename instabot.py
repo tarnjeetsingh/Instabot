@@ -124,10 +124,24 @@ def like_a_post(insta_username):
     else:
         print 'Your like was unsuccessful. Try again!'
 
+def get_comments_on_post(insta_username):
+    media_id = get_post_id(insta_username)
+    request_url = (base + 'media/%s/comments/?access_token=%s') % (media_id, app_access_token)
+    print ('GET request url: %s') % (request_url)
+    comments_info = requests.get(request_url).json()
+    if comments_info['meta']['code'] == 200:
+        print 'All the comments have been properly fetched!'
+        print 'Comments are as follows'
+        for index,val in enumerate(comments_info['data']):
+            print comments_info['data'][index]['text']
+        return comments_info
+    else:
+        print 'There was some error in fetching of the comments please try again!'
+
 def post_a_comment(insta_username):
     media_id = get_post_id(insta_username)
     request_url = (base+'media/%s/comments') %(media_id)
-    payload = {"access_token": app_access_token, "text": 'bad one'}
+    payload = {"access_token": app_access_token, "text": 'okkk'}
     print 'POST request url : %s' %(request_url)
     post_comment = requests.post(request_url,payload).json()
     if post_comment['meta']['code'] == 200:
