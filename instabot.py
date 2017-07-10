@@ -8,7 +8,7 @@ app_access_token = '1552927974.120ce8d.08ca68409d6745a7867e181ceea6bb00'
 base = 'https://api.instagram.com/v1/'
 
 # Creating a function to start our INSTABOT
-def start_chat():
+def start_bot():
     show_menu = True
     # Loop to show the choice menu again and again
     while show_menu:
@@ -349,4 +349,4 @@ def delete_negative_comment(insta_username):
     # Printing an appropriate message if the status code other than 200 is received
     else:
         print 'Status code other than 200 received'
-start_chat()
+start_bot()
