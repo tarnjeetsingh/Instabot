@@ -4,6 +4,7 @@ from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
 # Acess token of the user
 app_access_token = '1552927974.120ce8d.08ca68409d6745a7867e181ceea6bb00'
+app_access_token1 = '5716224141.120ce8d.c167843111af45c299db71bed6bb0cb2'
 # Base url for instagram API
 base = 'https://api.instagram.com/v1/'
 
@@ -349,4 +350,25 @@ def delete_negative_comment(insta_username):
     # Printing an appropriate message if the status code other than 200 is received
     else:
         print 'Status code other than 200 received'
-start_bot()
+
+# Fuction to get user interest from the tags
+def get_user_interests(insta_username):
+    user_id = get_user_id(insta_username)
+    request_url = (base+'users/%s/media/recent/?access_token=%s') %(user_id, app_access_token)
+    tags_info = requests.get(request_url).json()
+    if tags_info['meta']['code'] == 200:
+        if len(tags_info['data']):
+            print 'tags are as follows'
+            for index,val in enumerate(tags_info['data']):
+                for index1, val in enumerate(tags_info['data'][index]['tags']):
+                    tags_list = []
+                    tags_list.append(tags_info['data'][index]['tags'][index1])
+                    #print tags_info['data'][index]['tags'][index1]
+            for index, val in enumerate(tags_list):
+                print tags_list[index]
+        else:
+            print 'There is no data in the object'
+    else:
+        print 'Status code other than 200 received'
+get_user_interests('jittarn')
+#start_bot()
