@@ -7,6 +7,74 @@ app_access_token = '1552927974.120ce8d.08ca68409d6745a7867e181ceea6bb00'
 # Base url for instagram API
 base = 'https://api.instagram.com/v1/'
 
+# Creating a function to start our INSTABOT
+def start_chat():
+    show_menu = True
+    # Loop to show the choice menu again and again
+    while show_menu:
+        menu_choices = "What do you want to do? \n1. Get information about yourself \n" \
+                       "2. Get the user id of the instagrammer \n" \
+                       "3. Get information about a particular instagrammar \n" \
+                       "4. Get most recent post by yourself \n" \
+                       "5. Get most recent post of an Instagrammar \n" \
+                       "6. Get the recently liked media by yourself \n" \
+                       "7. Like a post \n" \
+                       "8. Get list of comment on a post \n" \
+                       "9. Comment on a post \n" \
+                       "10. delete negative comments from a post \n" \
+                       "11. Close the application "
+        menu_choice = raw_input(menu_choices)
+        # Exception handling is employed for the validation of the choice
+        try:
+            menu_choice = int(menu_choice)
+            # Option to obtain information about yourself
+            if menu_choice == 1:
+               self_info()
+            # Option to get user id of an instagrammar
+            elif menu_choice == 2:
+                username = raw_input("please enter username of the instagrammar")
+                get_user_id(username)
+            # Option to get information about an instagrammar
+            elif menu_choice == 3:
+                username = raw_input("please enter username of the instagrammar")
+                get_user_info(username)
+            # Option to the most recent post of yourself
+            elif menu_choice == 4:
+                get_own_post()
+            # Option to get most recent post of an instagrammar
+            elif menu_choice == 5:
+                username = raw_input("please enter username of the instagrammar")
+                get_user_post(username)
+            # Option to get most recently liked media by the user
+            elif menu_choice == 6:
+                get_own_likes()
+            # Option to like the most recent post of an instagrammar
+            elif menu_choice == 7:
+                username = raw_input("please enter username of the instagrammar")
+                like_a_post(username)
+            # Option to get list of comments on post of an instagrammar
+            elif menu_choice == 8:
+                username = raw_input("please enter username of the instagrammar")
+                get_comments_on_post(username)
+            # Option to post a comment on most recent post of an instagrammar
+            elif menu_choice == 9:
+                username = raw_input("please enter username of the instagrammar")
+                post_a_comment(username)
+            # Option to delete the negative comments from the most recent post of an instagrammar
+            elif menu_choice == 10:
+                username = raw_input("please enter username of the instagrammar")
+                delete_negative_comment(username)
+            # Option to close the INSTABOT
+            elif menu_choice == 11:
+                show_menu = False
+
+            # piece of code to be executed if niether of the above conditions are met
+            elif menu_choice > 11 or menu_choice < 1:
+                print 'Please enter a valid choice from the options listed above'
+        except ValueError:
+            print 'Invalid value entered'
+            print 'Please enter a valid choice'
+
 # Function  to get self info about the user
 def self_info():
     # Creating request url for self info
@@ -233,7 +301,7 @@ def post_a_comment(insta_username):
     # Formalise the request url using the instagram API and attaching the access token with it
     request_url = (base+'media/%s/comments') %(media_id)
     # Making a payload variable to be attached with the url
-    payload = {"access_token": app_access_token, "text": 'thanks'}
+    payload = {"access_token": app_access_token, "text": 'test'}
     print 'POST request url : %s' %(request_url)
     # Hitting the url and using the json function to decode the object and storing it in post_comment
     post_comment = requests.post(request_url,payload).json()
@@ -281,4 +349,4 @@ def delete_negative_comment(insta_username):
     # Printing an appropriate message if the status code other than 200 is received
     else:
         print 'Status code other than 200 received'
-
+start_chat()
