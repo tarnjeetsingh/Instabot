@@ -26,7 +26,8 @@ def start_bot():
                        "8. Get list of comment on a post \n" \
                        "9. Comment on a post \n" \
                        "10. delete negative comments from a post \n" \
-                       "11. Close the application "
+                       "11. Get user interests " \
+                       "12. Close the application"
         menu_choice = raw_input(menu_choices)
         # Exception handling is employed for the validation of the choice
         try:
@@ -70,6 +71,9 @@ def start_bot():
                 delete_negative_comment(username)
             # Option to close the INSTABOT
             elif menu_choice == 11:
+                username = raw_input("please enter username of the instagrammar")
+                get_user_interests(username)
+            elif menu_choice == 12:
                 show_menu = False
 
             # piece of code to be executed if niether of the above conditions are met
@@ -382,18 +386,12 @@ def get_user_interests(insta_username):
                         c = wordfreq[b]
                         c = c+1
                         wordfreq[b] = c
-            #print("String\n" + wordstring + "\n")
-            #print("List\n" + str(wordlist) + "\n")
-            #print("Frequencies\n" + str(wordfreq) + "\n")
-            #print("Pairs\n" + str(zip(wordlist, wordfreq)))
+
             new = (zip(new, wordfreq))
             print new
             data = []
             for h in range(10):
                 data.append(new[h])
-
-
-
 
             n_groups = len(data)
 
@@ -426,6 +424,7 @@ def get_user_interests(insta_username):
             print 'There is no data in the object'
     else:
         print 'Status code other than 200 received'
-get_user_interests('jittarn')
-#start_bot()
-#get_own_likes()
+
+# Calling the start_bot function to start our application
+start_bot()
+
