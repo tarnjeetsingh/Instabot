@@ -2,6 +2,9 @@ import requests
 import urllib
 from textblob import TextBlob
 from textblob.sentiments import NaiveBayesAnalyzer
+import numpy as np
+import matplotlib.pyplot as plt
+
 # Acess token of the user
 app_access_token = '1552927974.120ce8d.08ca68409d6745a7867e181ceea6bb00'
 app_access_token1 = '5716224141.120ce8d.c167843111af45c299db71bed6bb0cb2'
@@ -359,16 +362,70 @@ def get_user_interests(insta_username):
     if tags_info['meta']['code'] == 200:
         if len(tags_info['data']):
             print 'tags are as follows'
+            tags_list = []
+            yo = []
             for index,val in enumerate(tags_info['data']):
                 for index1, val in enumerate(tags_info['data'][index]['tags']):
-                    tags_list = []
                     tags_list.append(tags_info['data'][index]['tags'][index1])
-                    #print tags_info['data'][index]['tags'][index1]
-            for index, val in enumerate(tags_list):
-                print tags_list[index]
+            tags_list.sort()
+            tags_list = [x.encode('UTF8') for x in tags_list]
+            print tags_list
+            wordfreq = []
+            new = []
+            for w in tags_list:
+                if w not in new:
+                    new.append(w)
+                    wordfreq.append(1)
+                else:
+                    if w in new:
+                        b = new.index(w)
+                        c = wordfreq[b]
+                        c = c+1
+                        wordfreq[b] = c
+            #print("String\n" + wordstring + "\n")
+            #print("List\n" + str(wordlist) + "\n")
+            #print("Frequencies\n" + str(wordfreq) + "\n")
+            #print("Pairs\n" + str(zip(wordlist, wordfreq)))
+            new = (zip(new, wordfreq))
+            print new
+            data = []
+            for h in range(10):
+                data.append(new[h])
+
+
+
+
+            n_groups = len(data)
+
+            vals_films = [x[1] for x in data]
+            legends_films = [x[0] for x in data]
+
+            fig, ax = plt.subplots()
+
+            index = np.arange(n_groups)
+            bar_width = 0.02
+
+            opacity = 0.4
+
+            rects1 = plt.bar(index, vals_films, bar_width,
+                             alpha=opacity,
+                             color='b',
+                             label='Ocurrences')
+
+            plt.xlabel('Occurrences')
+            plt.ylabel('Words')
+            plt.title('Occurrences by word')
+            plt.xticks(index + bar_width, legends_films)
+            plt.legend()
+
+            plt.tight_layout()
+            plt.show()
+
+
         else:
             print 'There is no data in the object'
     else:
         print 'Status code other than 200 received'
 get_user_interests('jittarn')
 #start_bot()
+#get_own_likes()
