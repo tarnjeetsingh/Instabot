@@ -26,7 +26,7 @@ def start_bot():
                        "8. Get list of comment on a post \n" \
                        "9. Comment on a post \n" \
                        "10. delete negative comments from a post \n" \
-                       "11. Get user interests " \
+                       "11. Get user interests \n" \
                        "12. Close the application"
         menu_choice = raw_input(menu_choices)
         # Exception handling is employed for the validation of the choice
@@ -373,7 +373,6 @@ def get_user_interests(insta_username):
                     tags_list.append(tags_info['data'][index]['tags'][index1])
             tags_list.sort()
             tags_list = [x.encode('UTF8') for x in tags_list]
-            print tags_list
             wordfreq = []
             new = []
             for w in tags_list:
